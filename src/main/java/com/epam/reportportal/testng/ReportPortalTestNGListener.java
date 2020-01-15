@@ -15,8 +15,8 @@
  */
 package com.epam.reportportal.testng;
 
-import rp.com.google.common.base.Supplier;
-import rp.com.google.common.base.Suppliers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Backward-compatible version of Listeners with version prior to 3.0.0
@@ -25,16 +25,11 @@ import rp.com.google.common.base.Suppliers;
  */
 public class ReportPortalTestNGListener extends BaseTestNGListener {
 
-	/* static instance with lazy init */
-	public static final Supplier<ITestNGService> SERVICE = Suppliers.memoize(new Supplier<ITestNGService>() {
-		@Override
-		public ITestNGService get() {
-			return new TestNGService();
-		}
-	});
+	public static final Logger logger = LoggerFactory.getLogger(ReportPortalTestNGListener.class);
 
 	public ReportPortalTestNGListener() {
-		super(SERVICE.get());
+		super(new TestNGService());
+		logger.warn("RP Listener initialized");
 	}
 
 }
