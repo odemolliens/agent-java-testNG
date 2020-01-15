@@ -106,8 +106,11 @@ public class TestNGService implements ITestNGService {
 		FinishExecutionRQ rq = new FinishExecutionRQ();
 		rq.setEndTime(Calendar.getInstance().getTime());
 		rq.setStatus(isLaunchFailed.get() ? Statuses.FAILED : Statuses.PASSED);
+
+		LOGGER.warn("LAUNCH FINISH LOG BEFORE");
 		launch.get().finish(rq);
 
+		LOGGER.warn("LAUNCH FINISH LOG AFTER");
 		this.launch.reset();
 
 	}
