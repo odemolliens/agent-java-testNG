@@ -25,8 +25,8 @@ import com.epam.reportportal.listeners.Statuses;
 import com.epam.reportportal.service.Launch;
 import com.epam.reportportal.service.ReportPortal;
 import com.epam.reportportal.service.item.TestCaseIdEntry;
-import com.epam.reportportal.utils.TestCaseIdUtils;
 import com.epam.reportportal.utils.AttributeParser;
+import com.epam.reportportal.utils.TestCaseIdUtils;
 import com.epam.ta.reportportal.ws.model.FinishExecutionRQ;
 import com.epam.ta.reportportal.ws.model.FinishTestItemRQ;
 import com.epam.ta.reportportal.ws.model.ParameterResource;
@@ -38,6 +38,8 @@ import com.epam.ta.reportportal.ws.model.log.SaveLogRQ;
 import io.reactivex.Maybe;
 import io.reactivex.annotations.Nullable;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.*;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -63,6 +65,8 @@ import static rp.com.google.common.base.Throwables.getStackTraceAsString;
  * TestNG service implements operations for interaction report portal
  */
 public class TestNGService implements ITestNGService {
+
+	public static final Logger LOGGER = LoggerFactory.getLogger(TestNGService.class);
 
 	public static final String NOT_ISSUE = "NOT_ISSUE";
 	public static final String SKIPPED_ISSUE_KEY = "skippedIssue";
@@ -162,7 +166,10 @@ public class TestNGService implements ITestNGService {
 		}
 
 		FinishTestItemRQ rq = buildFinishTestMethodRq(status, testResult);
-		launch.get().finishTestItem(this.<Maybe<String>>getAttribute(testResult, RP_ID), rq);
+
+		Maybe<String> attribute = this.<Maybe<String>>getAttribute(testResult, RP_ID);
+		LOGGER.warn("FINISH TEST ITEM: " + (attribute != null));
+		launch.get().finishTestItem(attribute, rq);
 	}
 
 	@Override
