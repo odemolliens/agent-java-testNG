@@ -78,6 +78,7 @@ public class TestNGService implements ITestNGService {
 	private MemoizingSupplier<Launch> launch;
 
 	public TestNGService() {
+		LOGGER.warn("TESTNG SERVICE INITIALIZED");
 		this.launch = new MemoizingSupplier<Launch>(new Supplier<Launch>() {
 			@Override
 			public Launch get() {
