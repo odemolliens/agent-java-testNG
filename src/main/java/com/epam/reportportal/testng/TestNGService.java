@@ -158,6 +158,7 @@ public class TestNGService implements ITestNGService {
 		}
 
 		Maybe<String> stepMaybe = launch.get().startTestItem(this.<Maybe<String>>getAttribute(testResult.getTestContext(), RP_ID), rq);
+		LOGGER.warn("START TEST ITEM");
 		testResult.setAttribute(RP_ID, stepMaybe);
 		StepAspect.setParentId(stepMaybe);
 	}
